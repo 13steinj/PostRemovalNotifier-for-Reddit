@@ -5,7 +5,7 @@ Praw 3.5 and Python 2.7 were used.
 
 The bot works in 3 parts. The first part stores posts from the new queue.
 The second part two part selects posts that need a reply
-The thrid part (which is located in the code between the first and second parts) leaves a reply if there hasn't been a reply from a moderator.
+The third part (which is located in the code between the first and second parts) leaves a reply if there hasn't been a reply from a moderator.
 
 In the first part, it stores the <GetNewPosts> most recent posts from the new queue from <CurrentSubreddit> in the file <CurrentSubreddit>_posts_stored.txt
 
