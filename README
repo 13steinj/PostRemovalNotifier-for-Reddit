@@ -22,6 +22,6 @@ The delay between the 2nd and the 3rd run is to give the moderators some time if
 Posts that we have replied to are stored in: <CurrentSubreddit>_posts_Replied.txt
 
 In my current implementation I let the bot run every 3 minutes.
-# I recommend using the following guide for running it automatically: http://pythonforengineers.com/build-a-reddit-bot-part-3-automate-your-bot/
+I recommend using the following guide for running it automatically: http://pythonforengineers.com/build-a-reddit-bot-part-3-automate-your-bot/
 
 
