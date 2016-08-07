@@ -2,7 +2,6 @@
 import praw
 import os
 import datetime
-from config_bot import *
 
 # Please send /u/ERIKER1 a message on reddit when you are planning to use (parts of) this code.
 
@@ -44,6 +43,8 @@ if not os.path.isfile("config_bot.py"):
     print "Please see config_bot.py"
     exit(1)
 
+from config_bot import *
+
 # I kept the following variables in the above config file.
 # REDDIT_USERNAME =
 # REDDIT_PASS =
@@ -68,7 +69,7 @@ r.login(REDDIT_USERNAME, REDDIT_PASS)
 
 
 #Only needed for the first run of the bot
-# url = r.get_authorize_url('uniqueKey', 'edit flair history identity modconfig modcontributors modflair modlog modothers modposts modself modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread', True)
+# url = r.get_authorize_url('uniqueKey', 'edit history identity read submit', True)
 # import webbrowser
 # webbrowser.open(url)
 
@@ -163,7 +164,7 @@ for CurrentSubreddit in ListOfSubreddits:
         b = [str(mods) for mods in moderators]
         ModsInComment = list(set(a) & set(b))
 
-        if len(ModsInComment) is 0:
+        if not ModsInComment:
             # Reddit has some restrictions on the number of posts/comments that an account can make. This try catches this if it is not possible to reply.
             try:
                 submission.add_comment(
@@ -209,8 +210,9 @@ for CurrentSubreddit in ListOfSubreddits:
                 # Do not reply if user deleted his own post.
                 # and do not reply if the author has a combined karma less than <CombinedKarma>
                 # and do not reply if the author has an account that is younger than <AccountAge>
-                if submission.author is not None and submission.author.link_karma + submission.author.comment_karma > CombinedKarma and\
-                datetime.datetime.now() - datetime.datetime.fromtimestamp(submission.author.created_utc) > datetime.timedelta(days=AccountAge):
+                author_karma = getattr(submission.author, "link_karma", 0) + getattr(submission.author, "comment_karma", 0)
+                if (author_karma > CombinedKarma and
+                        datetime.datetime.now() - datetime.datetime.fromtimestamp(submission.author.created_utc) > datetime.timedelta(days=AccountAge)):
                     SubredditComment = 0 #stop commenting in a subreddit after a single comment. Speeds up the code when the karma of the bot is too low. Remove later.
 
                     # find all recent (top level) authors and check if they are mods. If they are not, add this post to the post that we have to reply to.
